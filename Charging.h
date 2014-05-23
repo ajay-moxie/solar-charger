@@ -43,3 +43,15 @@ uint16_t charger_duty_cycle;
 uint8_t charger_saturated;
 uint8_t start_CV_stage;
 uint8_t start_charging;
+
+//Charging functions
+void disable_charging(void);
+void enable_charging(void);
+void init_pwm4_var(void);
+void init_CV_var(void);
+void config_pwm4(void);
+void update_pwm4_duty_cycle(uint16_t duty_cyc_int);
+void calc_charger_duty_cycle(void);
+void configure_charger(void);
+void reset_charger_config(void);
+void charging_stop(void);

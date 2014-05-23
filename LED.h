@@ -14,5 +14,16 @@ uint8_t display_flag;
 uint16_t led_cnt;
 
 //function declaration
-void delay_loop_nms(uint16_t ms_time);
-
+void config_LED_port(void);
+void disable_green_LED(void);
+void disable_red_LED(void);
+void display_ovp_fault(void);
+void enable_red_LED(void);
+void enable_green_LED(void);
+void display_bat_low(void);
+void blink_red_led(void);
+void blink_green_led(void);
+void display_open_ckt_fault(void);
+void display_short_ckt_fault(void);
+void display_CC_stage(void);
+void display_CV_stage(void);
