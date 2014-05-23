@@ -14,3 +14,10 @@ uint8_t sw_cnt_low = 0;
 uint8_t sw_cnt_high = 0;
 
 //function declaration
+void enable_IOC_interrupt(void);
+void disable_IOC_interrupt(void);
+void config_int_switch1(void);
+void detect_switch(void);
+switch_position_t check_switch_position(void);
+void interrupt update_intensity_flags_int(void);
+void configure_interrupt(void);

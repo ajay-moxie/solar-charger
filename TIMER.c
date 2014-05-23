@@ -21,6 +21,11 @@ void enable_tmr2(void) {
   TMR2ON = 1;
 }
 
+void disable_tmr2(void) {
+  //Stop timer
+  TMR2ON = 0;
+}
+
 void clear_int_tmr2(void) {
   //Clearing interrupt
   TMR2IF = 0;
@@ -63,17 +68,33 @@ void wait_for_int_tmr1() {
   while(TMR1IF == 0);
 }
 
-void delay_loop_nms(uint16_t ms_val) {
+void delay_loop_nms(uint8_t ms_val) {
   uint8_t i;
-  uint16_t j;
+ 
+  for (i=0; i<ms_val; i++) {
+    TMR1H = 0xF0;
+    TMR1L = 0x60;
+    TMR1ON = 1;
+    while(TMR1IF == 0);
+    TMR1IF = 0;
+    TMR1ON = 0;
+  } 
+}
+
+void delay_loop_ns(uint8_t t_sec) {
+  uint8_t i;
+  uint8_t j;
   
-  enable_tmr1();
-  for (j=0; j<ms_val; j++) {
-    for (i=0; i<80; i++) {
-      wait_for_int_tmr1();
+  TMR1H = 0x00;
+  TMR1L = 0x00;
+  TMR1ON = 1;
+  for (i=0; i<t_sec; i++) {
+    for (j=0; j<62; j++) {
+      while(TMR1IF == 0);
+      TMR1IF = 0;
     }
   }
-  disable_tmr1();
+  TMR1ON = 0;
 }
 
 void configure_timer(void) {
