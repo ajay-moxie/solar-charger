@@ -1,5 +1,6 @@
 
 #include "temp.h"
+#include "interrupt.h"
 //Setting configuration word1
 __CONFIG(FOSC_INTOSC & BOREN_OFF & WDTE_OFF & CP_OFF & CLKOUTEN_OFF & PWRTE_OFF & MCLRE_ON);
 //Setting configuration word2
@@ -14,6 +15,7 @@ int main(void) {
 
   sel_sys_clk_int_osc();
   configure_interrupt();
+  config_int_switch1();
   configure_adc();
   configure_timer();
   configure_pwm();
