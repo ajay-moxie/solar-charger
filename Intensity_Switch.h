@@ -1,4 +1,5 @@
-
+#ifndef __INTENSITY_SWITCH_H
+#define __INTENSITY_SWITCH_H
 #include <htc.h>
 #include <stdint.h>
 
@@ -17,4 +18,4 @@ uint8_t sw_cnt_high = 0;
 void config_int_switch1(void);
 void detect_switch(void);
 switch_position_t check_switch_position(void);
-
+#endif
