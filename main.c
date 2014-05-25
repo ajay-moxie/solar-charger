@@ -1,5 +1,6 @@
 
 #include "temp.h"
+#include "led_load.h"
 #include "interrupt.h"
 //Setting configuration word1
 __CONFIG(FOSC_INTOSC & BOREN_OFF & WDTE_OFF & CP_OFF & CLKOUTEN_OFF & PWRTE_OFF & MCLRE_ON);

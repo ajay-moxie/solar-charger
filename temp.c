@@ -1,4 +1,6 @@
 #include "temp.h"
+#include "led_load.h"
+
 //main functions
 void config_analog_pins(void) {
   ANSA0 = 1;
@@ -86,64 +88,7 @@ charger_present_t check_charger_present(void) {
   return return_val;
 }
 
-ovp_mon_t monitor_overload_voltage(void) {
-  uint8_t loop2;
-  ovp_mon_t return_val;
-  uint16_t adc_int_val;
 
-  ovp_vol = 0;
-  adc_int_val = 0;
-  return_val = OVP_REACHED;
-
-  select_adc_channel(OVERLOAD_SENSE);
-  for (loop2=0; loop2<4; loop2++) {
-    do_adc_conversion();
-    adc_int_val = load_adc_result();
-    ovp_vol = ovp_vol + adc_int_val;
-  }
-  ovp_vol = ovp_vol >> 2;
-  ovp_vol = ovp_vol & 0x3FF;
-
-  if (ovp_vol >= OVP_VOL) {
-    return_val = OVP_REACHED;
-  }
-  else {
-    return_val = OVP_NOT_REACHED;
-  }
-
-  return return_val;
-}
-
-load_regulation_t monitor_load_regulation(void) {
-  uint8_t loop3;
-  load_regulation_t return_val;
-  uint16_t adc_int_val;
-
-  load_vol = 0;
-  return_val = OPEN_CKT_LOAD;
-  adc_int_val = 0;
-
-  select_adc_channel(LOAD_VOLTAGE);
-  for (loop3=0; loop3<4; loop3++) {
-    do_adc_conversion();
-    adc_int_val = load_adc_result();
-    load_vol = load_vol + adc_int_val;
-  }
-  load_vol = load_vol >> 2;
-  load_vol = load_vol & 0x3FF;
-
-  if (load_vol <= LOAD_OPEN_CKT_VOL) {
-    return_val = OPEN_CKT_LOAD;
-  }
-  else if (load_vol >= LOAD_SHORT_CKT_VOL) {
-    return_val = SHORT_CKT_LOAD;
-  }
-  else {
-    return_val = LOAD_REG_100;
-  }
-
-  return return_val;
-}
 
 charging_stage_t battery_charge_monitor(void) {
   uint8_t loop4;
@@ -210,13 +155,6 @@ void configure_adc(void) {
 }
 
 
-void start_pwm1(void) {
-  TMR2 = PWM_PERIOD;
-  //Loading PR2 for 40KHz PWM
-  PR2 = PWM_PERIOD;
-  enable_load_switch();
-  enable_pwm1();
-}
 
 void enable_tmr2_int(void) {
   clear_int_tmr2();
@@ -233,39 +171,6 @@ void start_pwm4(void) {
   //wait_for_int_tmr2();
 }
 
-void pi_controller(void) {
-  ovp_mon_t ovp_cond;
-  load_regulation_t load_cond;
-
-  ovp_cond = monitor_overload_voltage();
-  if (ovp_cond == OVP_REACHED) {
-    disable_load_switch();
-    disable_pwm1();
-    display_ovp_fault();
-  }
-  else {
-    load_cond = monitor_load_regulation();
-    /*
-    if (load_cond == OPEN_CKT_LOAD) {
-      disable_load_switch();
-      disable_pwm1();
-      display_open_ckt_fault();
-    }
-    else*/ if (load_cond == SHORT_CKT_LOAD) {
-      disable_load_switch();
-      disable_pwm1();
-      display_short_ckt_fault();
-    }
-    else {
-      enable_load_switch();
-      enable_pwm1();
-      feedback = feedback + load_vol;
-      feedback = feedback >> 1;
-      calculate_duty_cycle();
-      update_pwm1_duty_cycle(duty_cycle);
-    }
-  }
-}
 
 void pi_controller_pv(void) {
   charging_stage_t charging_cond;
@@ -355,22 +260,6 @@ void batt_charger_fun(void) {
   else {
     charging_stop();	
   }
-}
-
-void load_connect(void) {
-  init_pwm4_var();
-  if (first_run == 1) {
-    first_run = 0;
-    start_pwm1();
-  }
-  pi_controller();
-}
-
-void load_disconnect(void) {
-  first_run = 1;
-  disable_pwm1();
-  disable_load_switch();
-  init_pwm1_var();
 }
 
 void disp_low_batt_n_enter_sleep(void) {
