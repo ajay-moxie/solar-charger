@@ -1,5 +1,6 @@
 
 #include "interrupt.h"
+#include "led_load.h"
 
 void enable_IOC_interrupt(void) {
   //Enable global interrupt bit
@@ -13,12 +14,12 @@ void disable_IOC_interrupt(void) {
   IOCIE = 0;
 }
 
-EI()
+void EI()
 {
 	GIE = 1;
 }
 
-DI()
+void DI()
 {
 	GIE = 0;
 }
