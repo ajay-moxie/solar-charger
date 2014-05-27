@@ -2,6 +2,11 @@
 #include "temp.h"
 #include "led_load.h"
 #include "interrupt.h"
+#include "pi.h"
+//#define TEST_LOAD_ON_OFF
+#ifdef TEST_LOAD_ON_OFF
+	uint16_t test = 0;
+#endif
 //Setting configuration word1
 __CONFIG(FOSC_INTOSC & BOREN_OFF & WDTE_OFF & CP_OFF & CLKOUTEN_OFF & PWRTE_OFF & MCLRE_ON);
 //Setting configuration word2
@@ -9,8 +14,10 @@ __CONFIG(STVREN_ON & LVP_OFF);
 
 uint16_t count_10sec;
 uint8_t start_150ms;
+//battery_voltage_t battery_check;
 
 int main(void) {
+  ovp_mon_t ovp_cond;
 
   charging_stage_t temp;
 
@@ -31,6 +38,31 @@ int main(void) {
   delay_loop_nms(5);
 
   while(1) {
+	DI();
+	ovp_cond = monitor_overload_voltage();
+    EI();
+	if (ovp_cond == OVP_REACHED) {
+		set_load_state(PI_OFF);
+		display_ovp_fault();
+	}
+
+	DI();
+       battery_check = check_battery_voltage();
+       	EI();
+       if (battery_check == Low) {
+		set_load_state(PI_OFF);
+		display_ovp_fault();
+	}
+#ifdef TEST_LOAD_ON_OFF
+	test++;
+	if(test == 5000)
+		set_load_state(PI_OFF);
+	if(test == 10000){
+		set_load_state(PI_ON);
+		test = 0;
+	}
+#endif
+  }
     if (start_pi == 1) {
       start_pi = 0;
       switch_val = check_switch_position();

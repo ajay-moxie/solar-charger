@@ -30,6 +30,7 @@ void interrupt update_intensity_flags_int(void) {
   IOCAF5 = 0;
   if (TMR2IF == 1) {
     start_pi = 1;
+    load_connect();
     TMR2IF = 0;
   }
 }
