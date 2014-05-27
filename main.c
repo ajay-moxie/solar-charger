@@ -63,10 +63,15 @@ int main(void) {
 	}
 #endif
   }
+  while(0) {
     if (start_pi == 1) {
       start_pi = 0;
       switch_val = check_switch_position();
       battery_check = check_battery_voltage();
+	if (battery_check == Low) {
+		set_load_state(PI_OFF);
+		display_ovp_fault();
+	}
       //counter to dealy detection of PV 3 sec approx
       /*
       pv_det_count = pv_det_count + 1;
