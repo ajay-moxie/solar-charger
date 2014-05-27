@@ -1,5 +1,17 @@
 #include "temp.h"
 #include "led_load.h"
+#include "pi.h"
+#include "interrupt.h"
+
+struct pi led_load_pi;
+void set_load_state(state_t state)
+{
+	DI();
+	led_load_pi.state = state;
+	EI();
+}
+
+
 //main functions
 
 ovp_mon_t monitor_overload_voltage(void) {
@@ -71,14 +83,14 @@ void start_pwm1(void) {
 
 
 void pi_controller(void) {
-  ovp_mon_t ovp_cond;
   load_regulation_t load_cond;
 
-  ovp_cond = monitor_overload_voltage();
-  if (ovp_cond == OVP_REACHED) {
-    disable_load_switch();
-    disable_pwm1();
-    display_ovp_fault();
+  if(led_load_pi.state == PI_OFF){
+	  /*
+	disable_load_switch();
+	disable_pwm1();*/
+	//need to replace above two with load_disconnect
+	load_disconnect();
   }
   else {
     load_cond = monitor_load_regulation();
