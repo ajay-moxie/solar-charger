@@ -3,9 +3,9 @@
 
 void config_int_switch1(void) {
   //intensity switch1
-  //Configure falling edge interrupt for PWM
+  //Configure falling edge interrupt for RA5
   IOCAN5 = 1;
-  //Configure rising edge interrupt for PWM
+  //Configure rising edge interrupt for RA5
   IOCAP5 = 1;
 }
 
