@@ -3,6 +3,7 @@
 #include "led_load.h"
 #include "interrupt.h"
 #include "pi.h"
+#include "battery_mgmt.h"
 //#define TEST_LOAD_ON_OFF
 #ifdef TEST_LOAD_ON_OFF
 	uint16_t test = 0;
@@ -16,7 +17,10 @@ uint16_t count_10sec;
 uint8_t start_150ms;
 //battery_voltage_t battery_check;
 
+  uint16_t bat[50];
 int main(void) {
+  uint16_t batt_volt;
+  int i = 0;
   ovp_mon_t ovp_cond;
 
   charging_stage_t temp;
@@ -36,22 +40,27 @@ int main(void) {
   count_10sec = 0;
   start_150ms = 0;
   delay_loop_nms(5);
-
   while(1) {
 	DI();
 	ovp_cond = monitor_overload_voltage();
-    EI();
+    	EI();
 	if (ovp_cond == OVP_REACHED) {
 		set_load_state(PI_OFF);
 		display_ovp_fault();
 	}
 
 	DI();
-       battery_check = check_battery_voltage();
+	batt_volt = get_battery_voltage();
+	bat[i] = batt_volt;
+	i = (i + 1) % 50;
        	EI();
-       if (battery_check == Low) {
+	
+	if(batt_volt < BAT_LO_VOL) {
 		set_load_state(PI_OFF);
 		display_ovp_fault();
+	}
+	else if(batt_volt > BAT_RECONNECT_VOL){
+	//	set_load_state(PI_ON);
 	}
 #ifdef TEST_LOAD_ON_OFF
 	test++;
@@ -67,11 +76,11 @@ int main(void) {
     if (start_pi == 1) {
       start_pi = 0;
       switch_val = check_switch_position();
-      battery_check = check_battery_voltage();
+      /*battery_check = check_battery_voltage();
 	if (battery_check == Low) {
 		set_load_state(PI_OFF);
 		display_ovp_fault();
-	}
+	}*/
       //counter to dealy detection of PV 3 sec approx
       /*
       pv_det_count = pv_det_count + 1;
