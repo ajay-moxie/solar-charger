@@ -31,8 +31,8 @@ void detect_switch(void) {
   }
 }
 
-switch_position_t check_switch_position(void) {
-  switch_position_t return_val;
+state_t check_switch_position(void) {
+  state_t return_val;
 
   return_val = OFF;
 

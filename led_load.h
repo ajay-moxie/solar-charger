@@ -2,7 +2,7 @@
 #define __LED_LOAD_H__
 #include <htc.h>
 #include <stdint.h>
-
+#include "common.h"
 #include "SYSTEM.h"
 #include "Intensity_Switch.h"
 #include "ADC.h"
@@ -57,7 +57,7 @@ uint16_t batt_charge;
 uint8_t hysterisis_flag;
 uint8_t count;
 
-switch_position_t switch_val;
+state_t switch_val;
 uint8_t first_run;
 uint16_t pv_det_count;
 uint16_t stop_charging_count;

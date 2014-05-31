@@ -11,6 +11,8 @@
 #include "Load_Switch.h"
 #include "LED.h"
 #include "Charging.h"
+#include "battery_mgmt.h"
+#include "common.h"
 
 #define SW_OFF_PV_N ((switch_val == OFF) && (charger_check == No))
 #define SW_OFF_PV_Y ((switch_val == OFF) && (charger_check == Yes))
@@ -75,8 +77,8 @@ uint16_t thermistor_voltage;
 uint8_t hysterisis_flag;
 uint8_t count;
 
-switch_position_t switch_val;
-battery_voltage_t battery_check;
+state_t switch_val;
+//battery_voltage_t battery_check;
 charger_present_t charger_check;
 uint8_t first_run;
 uint16_t pv_det_count;
