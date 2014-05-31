@@ -21,11 +21,6 @@
 
 //Update all vairables for 2mV adc resolution
 
-//Battery constants
-#define BAT_HI_VOL 164 //for 13V
-#define BAT_MID_VOL 140 //for 11V  
-#define BAT_LO_VOL 129 //for 10.2V
-
 //PV constants
 #define CHARGING_START_VOL 30 //PV is 150mV higher at RB4
 #define CHARGER_DET 800 //PV is 4V higher at RB4
