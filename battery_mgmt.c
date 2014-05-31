@@ -1,11 +1,14 @@
 #include "battery_mgmt.h"
 #include "temp.h"
+#include "interrupt.h"
 
 uint16_t get_battery_voltage(){
 	uint16_t bat_volt;
+	DI();
 	select_adc_channel(BATTERY_VOL_MON);
 	do_adc_conversion();
 	bat_volt = load_adc_result();
+	EI();
 	return bat_volt;
 }
 battery_voltage_t check_battery_voltage(void) {
