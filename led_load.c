@@ -11,36 +11,26 @@ void set_load_state(state_t state)
 	EI();
 }
 
-
-//main functions
-
-ovp_mon_t monitor_overload_voltage(void) {
-  uint8_t loop2;
-  ovp_mon_t return_val;
-  uint16_t adc_int_val;
-
-  ovp_vol = 0;
-  adc_int_val = 0;
-  return_val = OVP_REACHED;
-
-  select_adc_channel(OVERLOAD_SENSE);
-  for (loop2=0; loop2<4; loop2++) {
-    do_adc_conversion();
-    adc_int_val = load_adc_result();
-    ovp_vol = ovp_vol + adc_int_val;
-  }
-  ovp_vol = ovp_vol >> 2;
-  ovp_vol = ovp_vol & 0x3FF;
-
-  if (ovp_vol >= OVP_VOL) {
-    return_val = OVP_REACHED;
-  }
-  else {
-    return_val = OVP_NOT_REACHED;
-  }
-
-  return return_val;
+void set_load_error(bool_t error)
+{
+	DI();
+	led_load_pi.error = error;
+	EI();
 }
+
+void set_load_sticky_error(bool_t error)
+{
+	DI();
+	led_load_pi.sticky_error = error;
+	EI();
+}
+
+void led_load_pi_init()
+{
+	led_load_pi.error = false;
+	led_load_pi.sticky_error = false;
+}
+//main functions
 
 load_regulation_t monitor_load_regulation(void) {
   uint8_t loop3;
@@ -85,7 +75,7 @@ void start_pwm1(void) {
 void pi_controller(void) {
   load_regulation_t load_cond;
 
-  if(led_load_pi.state == PI_OFF){
+  if((led_load_pi.state == OFF) || (led_load_pi.error == true) || (led_load_pi.sticky_error == true)){
 	  /*
 	disable_load_switch();
 	disable_pwm1();*/

@@ -38,7 +38,6 @@
 #define BATT_CC_VOL 188 //940mV should be less than CHARGER_SETPOINT
 
 //LED constants
-#define OVP_VOL 177 //59V
 #define LOAD_OPEN_CKT_VOL 1
 #define LOAD_SHORT_CKT_VOL 1000
 

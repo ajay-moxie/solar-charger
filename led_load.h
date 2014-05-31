@@ -27,15 +27,7 @@
 #define HYS_VOL 94 //460mV
 #define BATT_CC_VOL 188 //940mV should be less than CHARGER_SETPOINT
 
-//LED constants
-#define OVP_VOL 177 //59V
-#define LOAD_OPEN_CKT_VOL 1
-#define LOAD_SHORT_CKT_VOL 1000
 
-typedef enum {
-  OVP_REACHED = 6,
-  OVP_NOT_REACHED = 7
-} ovp_mon_t;
 
 typedef enum {
   LOAD_REG_50 = 8,
@@ -45,7 +37,6 @@ typedef enum {
 } load_regulation_t;
 
 
-uint16_t ovp_vol;
 uint16_t charger_vol;
 uint16_t load_vol;
 uint16_t batt_charge;
@@ -58,8 +49,7 @@ uint16_t pv_det_count;
 uint16_t stop_charging_count;
 
 //ADC functions
-ovp_mon_t monitor_overload_voltage(void);
-load_regulation_t monitor_load_regulation(void);
+//ovp_mon_t monitor_overload_voltage(void);
 void init_adc_var(void);
 void configure_adc(void);
 void init_vars(void);
@@ -68,4 +58,7 @@ void load_disconnect(void);
 void load_connect(void);
 void batt_charger_fun(void);
 void set_load_state(state_t state);
+void set_load_error(bool_t error);
+void set_load_sticky_error(bool_t error);
+void led_load_pi_init();
 #endif
