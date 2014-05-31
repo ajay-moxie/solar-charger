@@ -31,11 +31,6 @@
 
 //Update all vairables for 2mV adc resolution
 
-//Battery constants
-#define BAT_HI_VOL 164 //for 13V
-#define BAT_MID_VOL 140 //for 11V  
-#define BAT_LO_VOL 129 //for 10.2V
-
 //PV constants
 #define CHARGING_START_VOL 30 //PV is 150mV higher at RB4
 #define CHARGER_DET 800 //PV is 4V higher at RB4
@@ -47,11 +42,6 @@
 #define LOAD_OPEN_CKT_VOL 1
 #define LOAD_SHORT_CKT_VOL 1000
 
-typedef enum {
-  Low = 1,
-  High = 2,
-  Mid = 3
-} battery_voltage_t;
 
 typedef enum {
   Yes = 4,
@@ -86,7 +76,6 @@ uint16_t stop_charging_count;
 
 //ADC functions
 void config_analog_pins(void);
-battery_voltage_t check_battery_voltage(void);
 charger_present_t check_charger_present(void);
 charging_stage_t battery_charge_monitor(void);
 void init_adc_var(void);

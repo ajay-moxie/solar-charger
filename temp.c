@@ -1,7 +1,9 @@
 #include "temp.h"
 #include "led_load.h"
+#include "battery_mgmt.h"
 
 //main functions
+battery_voltage_t battery_check;
 void config_analog_pins(void) {
   ANSA0 = 1;
   LATA0 = 0;
@@ -32,36 +34,6 @@ void config_analog_pins(void) {
   TRISC7 = 1;
 }
 
-battery_voltage_t check_battery_voltage(void) {
-  uint8_t loop0;
-  battery_voltage_t return_val;
-  uint16_t adc_int_val;
-
-  bat_vol = 0;
-  return_val = Low;
-  adc_int_val = 0;
-
-  select_adc_channel(BATTERY_VOL_MON);
-  for (loop0=0; loop0<4; loop0++) {
-    do_adc_conversion();
-    adc_int_val = load_adc_result();
-    bat_vol = bat_vol + adc_int_val;
-  }
-  bat_vol = bat_vol >> 2;
-  bat_vol = bat_vol & 0x3FF;
-
-  if (bat_vol <= BAT_LO_VOL) {
-    return_val = Low;
-  }
-  else if (bat_vol >= BAT_HI_VOL) {
-    return_val = High;
-  }
-  else {
-    return_val = Mid;
-  }
-
-  return return_val;
-}
 
 charger_present_t check_charger_present(void) {
   uint8_t loop1;
