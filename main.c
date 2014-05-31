@@ -4,6 +4,7 @@
 #include "interrupt.h"
 #include "pi.h"
 #include "battery_mgmt.h"
+#include "common.h"
 //#define TEST_LOAD_ON_OFF
 #ifdef TEST_LOAD_ON_OFF
 uint16_t test = 0;
@@ -15,6 +16,8 @@ __CONFIG(STVREN_ON & LVP_OFF);
 
 uint16_t count_10sec;
 uint8_t start_150ms;
+state_t load_switch_state = ON;
+state_t PV_state = OFF;
 //battery_voltage_t battery_check;
 
 uint16_t bat[50];
@@ -41,26 +44,35 @@ int main(void) {
 	start_150ms = 0;
 	delay_loop_nms(5);
 	while(1) {
-		DI();
-		ovp_cond = monitor_overload_voltage();
-		EI();
-		if (ovp_cond == OVP_REACHED) {
-			set_load_state(PI_OFF);
-			display_ovp_fault();
-		}
 
-		DI();
-		batt_volt = get_battery_voltage();
-		bat[i] = batt_volt;
-		i = (i + 1) % 50;
-		EI();
+		if((load_switch_state == ON) && (PV_state == OFF)){
+			DI();
+			ovp_cond = monitor_overload_voltage();
+			EI();
+			if (ovp_cond == OVP_REACHED) {
+				set_load_state(PI_OFF);
+				display_ovp_fault();
+			}
 
-		if(batt_volt < BAT_LO_VOL) {
-			set_load_state(PI_OFF);
-			display_ovp_fault();
+			DI();
+			batt_volt = get_battery_voltage();
+			bat[i] = batt_volt;
+			i = (i + 1) % 50;
+			EI();
+
+			if(batt_volt < BAT_LO_VOL) {
+				set_load_state(PI_OFF);
+				display_ovp_fault();
+			}
+			else if(batt_volt > BAT_RECONNECT_VOL){
+				//	set_load_state(PI_ON);
+			}
 		}
-		else if(batt_volt > BAT_RECONNECT_VOL){
-			//	set_load_state(PI_ON);
+		else if(PV_state == ON){
+			//manage battery changing
+		}
+		else{
+			//low power state
 		}
 #ifdef TEST_LOAD_ON_OFF
 		test++;
