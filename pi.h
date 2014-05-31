@@ -1,10 +1,6 @@
 #ifndef __PI_H__
 #define __PI_H__
-typedef enum{
-	PI_ON,
-	PI_OFF,
-}state_t;
-
+#include "common.h"
 
 struct pi{
 	uint8_t Kp;

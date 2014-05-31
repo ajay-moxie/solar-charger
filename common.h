@@ -4,6 +4,11 @@ typedef enum {
 	OFF,
 	ON,
 }state_t;
+
+typedef enum{
+	true,
+	false,
+}bool_t;
 #endif
 
 
