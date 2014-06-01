@@ -4,14 +4,8 @@
 #include <stdint.h>
 #include "common.h"
 
-
-uint8_t switch1 = 0;
-
-uint8_t sw_cnt_low = 0;
-uint8_t sw_cnt_high = 0;
-
 //function declaration
-void config_int_switch1(void);
-void detect_switch(void);
-state_t check_switch_position(void);
+void config_intensity_switch(void);
+state_t intensity_switch_position(void);
+void detect_intensity_switch(void);
 #endif

@@ -31,7 +31,7 @@ int main(void) {
 
 	sel_sys_clk_int_osc();
 	configure_interrupt();
-	config_int_switch1();
+	config_intensity_switch();
 	configure_adc();
 	configure_timer();
 	configure_pwm();
@@ -45,9 +45,12 @@ int main(void) {
 	count_10sec = 0;
 	start_150ms = 0;
 	delay_loop_nms(5);
+    DI();
+	detect_intensity_switch();
+    EI();
 	while(1) {
 
-		if((load_switch_state == ON) && (PV_state == OFF)){
+		if((intensity_switch_position() == ON) && (PV_state == OFF)){
 			set_load_state(ON);
 		
 			load_mgmt();
@@ -56,6 +59,7 @@ int main(void) {
 			//manage battery changing
 		}
 		else{
+			set_load_state(OFF);
 			//low power state
 		}
 #ifdef TEST_LOAD_ON_OFF

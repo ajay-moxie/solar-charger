@@ -1,6 +1,7 @@
 
 #include "interrupt.h"
 #include "led_load.h"
+#include "Intensity_Switch.h"
 
 void enable_IOC_interrupt(void) {
   //Enable global interrupt bit
@@ -27,7 +28,10 @@ void DI()
 void interrupt update_intensity_flags_int(void) {
   //Check intensity switch position and set
   //flags accordingly
-  IOCAF5 = 0;
+  if(IOCAF5 == 1){
+	  IOCAF5 = 0;
+	  detect_intensity_switch();
+  }
   if (TMR2IF == 1) {
     start_pi = 1;
     load_connect();
