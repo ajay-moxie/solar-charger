@@ -1,5 +1,5 @@
-#ifndef __INTENSITY_SWITCH_H
-#define __INTENSITY_SWITCH_H
+#ifndef __INTENSITY_SWITCH_H__
+#define __INTENSITY_SWITCH_H__
 #include <htc.h>
 #include <stdint.h>
 #include "common.h"

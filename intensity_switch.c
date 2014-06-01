@@ -1,5 +1,5 @@
 
-#include "Intensity_Switch.h"
+#include "intensity_switch.h"
 
 static state_t intensity_switch;
 

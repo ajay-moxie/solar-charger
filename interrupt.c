@@ -1,7 +1,7 @@
 
 #include "interrupt.h"
 #include "led_load.h"
-#include "Intensity_Switch.h"
+#include "intensity_switch.h"
 
 void enable_IOC_interrupt(void) {
   //Enable global interrupt bit

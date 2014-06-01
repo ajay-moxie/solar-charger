@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "common.h"
 #include "SYSTEM.h"
-#include "Intensity_Switch.h"
+#include "intensity_switch.h"
 #include "ADC.h"
 #include "TIMER.h"
 #include "PWM.h"

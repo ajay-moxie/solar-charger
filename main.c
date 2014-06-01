@@ -6,6 +6,7 @@
 #include "battery_mgmt.h"
 #include "load_mgmt.h"
 #include "common.h"
+#include "intensity_switch.h"
 //#define TEST_LOAD_ON_OFF
 #ifdef TEST_LOAD_ON_OFF
 uint16_t test = 0;
