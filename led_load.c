@@ -27,6 +27,13 @@ void set_load_sticky_error(bool_t error)
 
 void led_load_pi_init()
 {
+	led_load_pi.setpoint = LED_LOAD_SETPOINT;
+	led_load_pi.pi_error = 0;
+	led_load_pi.integral = 0;
+	led_load_pi.duty_cycle = 0;
+	led_load_pi.saturated = 0;
+	led_load_pi.feedback = 0;
+
 	led_load_pi.error = false;
 	led_load_pi.sticky_error = false;
 }
@@ -71,6 +78,40 @@ void start_pwm1(void) {
   enable_pwm1();
 }
 
+void calculate_duty_cycle(void) {
+  int16_t output;
+  led_load_pi.pi_error = led_load_pi.setpoint - led_load_pi.feedback;
+
+  if ((led_load_pi.pi_error > 1) || (led_load_pi.pi_error < -1)) {
+    if (led_load_pi.saturated == 0) {
+      if (led_load_pi.pi_error > 0) {
+        if (led_load_pi.integral < INTEGRAL_MAX) {
+          led_load_pi.integral = led_load_pi.integral + led_load_pi.pi_error;
+	}
+      }
+      else {
+        if (led_load_pi.integral > INTEGRAL_MIN) {
+          led_load_pi.integral = led_load_pi.integral + led_load_pi.pi_error;
+	}
+      }
+    }
+    output = ((led_load_pi.pi_error * Kp) + (led_load_pi.integral * Ki));
+    output = output / CONST_K;
+    if (output > duty_max) {
+      led_load_pi.saturated = 1;
+      output = duty_max;
+    }
+    else if (output < 0) {
+      led_load_pi.saturated = 1;
+      output = duty_max;
+    }
+    else {
+      led_load_pi.saturated = 0;
+    }
+  }
+  led_load_pi.duty_cycle = (uint16_t) output;
+}
+
 
 void pi_controller(void) {
   load_regulation_t load_cond;
@@ -98,10 +139,10 @@ void pi_controller(void) {
     else {
       enable_load_switch();
       enable_pwm1();
-      feedback = feedback + load_vol;
-      feedback = feedback >> 1;
+      led_load_pi.feedback = led_load_pi.feedback + load_vol;
+      led_load_pi.feedback = led_load_pi.feedback >> 1;
       calculate_duty_cycle();
-      update_pwm1_duty_cycle(duty_cycle);
+      update_pwm1_duty_cycle(led_load_pi.duty_cycle);
     }
   }
 }

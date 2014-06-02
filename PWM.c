@@ -44,6 +44,7 @@ void update_pwm1_duty_cycle(uint16_t duty_cyc) {
   PWM1DCL = (duty_cyc & 0x03) << 6;
 }
 
+/*
 void calculate_duty_cycle(void) {
   int16_t output;
 
@@ -78,6 +79,7 @@ void calculate_duty_cycle(void) {
   }
   duty_cycle = (uint16_t) output;
 }
+*/
 
 void configure_pwm(void) {
   LATC5 = 1;
