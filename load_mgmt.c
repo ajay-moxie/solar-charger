@@ -22,7 +22,7 @@ static monitor_load_voltage(void) {
 
 void load_mgmt()
 {
-	bool_t error = false;
+	static bool_t error = false;
 	bool_t sticky_error = false;
 	uint16_t batt_volt;
 	monitor_load_voltage();
