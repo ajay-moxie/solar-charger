@@ -1,6 +1,15 @@
 
 #include "PWM.h"
 
+uint16_t get_pwm_period()
+{
+	return PR2;
+}
+
+void set_pwm_period(uint16_t period)
+{
+	PR2 = period;
+}
 void init_pwm1_var(void) {
   Kp = KP;
   Ki = KI;

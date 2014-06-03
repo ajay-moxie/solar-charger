@@ -70,14 +70,6 @@ load_regulation_t monitor_load_regulation(void) {
 	return return_val;
 }
 
-void start_pwm1(void) {
-	TMR2 = PWM_PERIOD;
-	//Loading PR2 for 40KHz PWM
-	PR2 = PWM_PERIOD;
-	enable_load_switch();
-	enable_pwm1();
-}
-
 void calculate_duty_cycle(void) {
 	int16_t output;
 	led_load_pi.pi_error = led_load_pi.setpoint - led_load_pi.feedback;
@@ -117,10 +109,7 @@ void pi_controller(void) {
 	load_regulation_t load_cond;
 
 	if((led_load_pi.state == OFF) || (led_load_pi.error == true) || (led_load_pi.sticky_error == true)){
-		/*
-		   disable_load_switch();
-		   disable_pwm1();*/
-		//need to replace above two with load_disconnect
+		
 		load_disconnect();
 	}
 	else {
@@ -137,6 +126,9 @@ void pi_controller(void) {
 			   display_short_ckt_fault();
 		   }
 		   else {
+			   if(get_pwm_period() != PWM_PERIOD){
+				set_pwm_period(PWM_PERIOD);
+			   }
 			   enable_load_switch();
 			   enable_pwm1();
 			   led_load_pi.feedback = led_load_pi.feedback + load_vol;
@@ -149,17 +141,11 @@ void pi_controller(void) {
 
 void load_connect(void) {
 	init_pwm4_var();
-	if (first_run == 1) {
-		first_run = 0;
-		start_pwm1();
-	}
 	pi_controller();
 }
 
 void load_disconnect(void) {
-	first_run = 1;
 	disable_pwm1();
 	disable_load_switch();
-	init_pwm1_var();
 }
 
