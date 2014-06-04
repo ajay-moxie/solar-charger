@@ -1,5 +1,6 @@
 
 #include "intensity_switch.h"
+#include "led_load.h"
 
 static state_t intensity_switch;
 
@@ -20,6 +21,7 @@ void detect_intensity_switch(void)
 	sw = RA5;
 	if (sw == 0) {
 		intensity_switch = ON;
+		led_load_pi_init();
 	} else {
 		intensity_switch = OFF;
 	}
