@@ -132,6 +132,7 @@ void pi_controller(void) {
 			   disable_load_switch();
 			   disable_pwm1();
 			   display_short_ckt_fault();
+			   led_load_pi.sticky_error = true;
 		   }
 		   else {
 			   if(get_pwm_period() != PWM_PERIOD){
