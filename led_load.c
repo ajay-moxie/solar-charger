@@ -45,7 +45,6 @@ void led_load_pi_init()
 	led_load_pi.sticky_error = false;
 }
 //main functions
-
 load_regulation_t monitor_load_regulation(void) {
 	uint8_t loop3;
 	load_regulation_t return_val;
@@ -56,13 +55,16 @@ load_regulation_t monitor_load_regulation(void) {
 	adc_int_val = 0;
 
 	select_adc_channel(LOAD_VOLTAGE);
-	for (loop3=0; loop3<4; loop3++) {
+	do_adc_conversion();
+	load_vol = load_adc_result();
+	
+/*	for (loop3=0; loop3<4; loop3++) {
 		do_adc_conversion();
 		adc_int_val = load_adc_result();
 		load_vol = load_vol + adc_int_val;
 	}
 	load_vol = load_vol >> 2;
-	load_vol = load_vol & 0x3FF;
+	load_vol = load_vol & 0x3FF;*/
 
 	if (load_vol <= LOAD_OPEN_CKT_VOL) {
 		return_val = OPEN_CKT_LOAD;
