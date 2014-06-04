@@ -54,7 +54,6 @@ void init_adc_var(void);
 void configure_adc(void);
 void init_vars(void);
 void enable_tmr2_int(void);
-void load_disconnect(void);
 void load_connect(void);
 void batt_charger_fun(void);
 void set_load_state(state_t state);

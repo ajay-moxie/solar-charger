@@ -4,6 +4,8 @@
 #include "interrupt.h"
 
 struct pi led_load_pi;
+static void load_disconnect(void);
+
 void set_load_state(state_t state)
 {
 	DI();
@@ -148,7 +150,7 @@ void load_connect(void) {
 	pi_controller();
 }
 
-void load_disconnect(void) {
+static void load_disconnect(void) {
 	disable_pwm1();
 	disable_load_switch();
 	led_load_pi_vars_init();
