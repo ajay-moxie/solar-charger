@@ -10,8 +10,9 @@ void set_pwm_period(uint16_t period)
 {
 	PR2 = period;
 }
+
 void init_pwm1_var(void) {
-  Kp = KP;
+  /*Kp = KP;
   Ki = KI;
   duty_max = DUTY_MAX;
   setpoint = SETPOINT;
@@ -19,7 +20,7 @@ void init_pwm1_var(void) {
   error = 0;
   integral = 0;
   duty_cycle = 0;
-  saturated = 0;
+  saturated = 0;*/
 }
 
 void config_pwm1(void) {

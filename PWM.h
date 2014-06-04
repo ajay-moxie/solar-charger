@@ -20,7 +20,7 @@
 #define INTEGRAL_MAX 32000
 #define CONST_K 64
 
-uint8_t Kp;
+/*uint8_t Kp;
 uint8_t Ki;
 uint16_t duty_max;
 uint16_t setpoint;
@@ -29,7 +29,7 @@ int16_t error;
 int16_t integral;
 uint16_t duty_cycle;
 uint8_t saturated;
-
+*/
 //PWM functions
 void disable_pwm1(void);
 void enable_pwm1(void);
