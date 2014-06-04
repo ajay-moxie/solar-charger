@@ -136,8 +136,7 @@ void pi_controller(void) {
 			}
 			enable_load_switch();
 			enable_pwm1();
-			led_load_pi.feedback = led_load_pi.feedback + load_vol;
-			led_load_pi.feedback = led_load_pi.feedback >> 1;
+			led_load_pi.feedback = load_vol;
 			calculate_duty_cycle();
 			update_pwm1_duty_cycle(led_load_pi.duty_cycle);
 		}
