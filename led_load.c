@@ -77,7 +77,7 @@ load_regulation_t monitor_load_regulation(void) {
 	return return_val;
 }
 
-	int16_t output;
+int16_t output;
 void calculate_duty_cycle(void) {
 	led_load_pi.pi_error = led_load_pi.setpoint - led_load_pi.feedback;
 
@@ -116,35 +116,29 @@ void pi_controller(void) {
 	load_regulation_t load_cond;
 
 	if((led_load_pi.state == OFF) || (led_load_pi.error == true) || (led_load_pi.sticky_error == true)){
-		
+
 		load_disconnect();
 	}
 	else {
 		enable_load_switch();
 		load_cond = monitor_load_regulation();
-		/*
-		   if (load_cond == OPEN_CKT_LOAD) {
-		   disable_load_switch();
-		   disable_pwm1();
-		   display_open_ckt_fault();
-		   }
-		   else*/ if (load_cond == SHORT_CKT_LOAD) {
-			   disable_load_switch();
-			   disable_pwm1();
-			   display_short_ckt_fault();
-			   led_load_pi.sticky_error = true;
-		   }
-		   else {
-			   if(get_pwm_period() != PWM_PERIOD){
+		if (load_cond == SHORT_CKT_LOAD) {
+			disable_load_switch();
+			disable_pwm1();
+			display_short_ckt_fault();
+			led_load_pi.sticky_error = true;
+		}
+		else {
+			if(get_pwm_period() != PWM_PERIOD){
 				set_pwm_period(PWM_PERIOD);
-			   }
-			   enable_load_switch();
-			   enable_pwm1();
-			   led_load_pi.feedback = led_load_pi.feedback + load_vol;
-			   led_load_pi.feedback = led_load_pi.feedback >> 1;
-			   calculate_duty_cycle();
-			   update_pwm1_duty_cycle(led_load_pi.duty_cycle);
-		   }
+			}
+			enable_load_switch();
+			enable_pwm1();
+			led_load_pi.feedback = led_load_pi.feedback + load_vol;
+			led_load_pi.feedback = led_load_pi.feedback >> 1;
+			calculate_duty_cycle();
+			update_pwm1_duty_cycle(led_load_pi.duty_cycle);
+		}
 	}
 }
 
