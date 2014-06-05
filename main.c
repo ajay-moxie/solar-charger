@@ -36,7 +36,7 @@ int main(void) {
 	configure_adc();
 	configure_timer();
 	configure_pwm();
-	configure_load_switch();
+	load_switch_init();
 	config_LED_port();
 	configure_charger();
 	led_load_pi_init();
@@ -63,7 +63,9 @@ int main(void) {
 			set_load_state(OFF);
 			if(load_power_state() == SLEEP_READY){
 				DI();
+				load_switch_exit();
 				enter_sleep_mode();
+				load_switch_init();
 				EI();
 			}
 			//low power state
