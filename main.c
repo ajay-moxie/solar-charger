@@ -61,6 +61,11 @@ int main(void) {
 		}
 		else{
 			set_load_state(OFF);
+			if(load_power_state() == SLEEP_READY){
+				DI();
+				enter_sleep_mode();
+				EI();
+			}
 			//low power state
 		}
 #ifdef TEST_LOAD_ON_OFF

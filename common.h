@@ -9,6 +9,11 @@ typedef enum{
 	true,
 	false,
 }bool_t;
+
+typedef enum{
+	SLEEP_READY,
+	NO_SLEEP,
+}sleep_t;
 #endif
 
 

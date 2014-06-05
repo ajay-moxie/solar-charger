@@ -4,8 +4,12 @@
 #include "interrupt.h"
 
 struct pi led_load_pi;
-static void load_disconnect(void);
+static void load_disconnect(sleep_t sleep);
 
+sleep_t load_power_state()
+{
+	return led_load_pi.sleep_ready;
+}
 void set_load_state(state_t state)
 {
 	DI();
@@ -45,6 +49,7 @@ void led_load_pi_init()
 	led_load_pi_vars_init();
 	led_load_pi.error = false;
 	led_load_pi.sticky_error = false;
+	led_load_pi.sleep_ready = false;
 }
 //main functions
 load_regulation_t monitor_load_regulation(void) {
@@ -121,7 +126,10 @@ void pi_controller(void) {
 
 	if((led_load_pi.state == OFF) || (led_load_pi.error == true) || (led_load_pi.sticky_error == true)){
 
-		load_disconnect();
+		load_disconnect(SLEEP_READY);
+	}
+	else if(led_load_pi.error == true){
+		load_disconnect(NO_SLEEP);
 	}
 	else {
 		enable_load_switch();
@@ -147,13 +155,19 @@ void pi_controller(void) {
 
 void load_connect(void) {
 	//init_pwm4_var();
+	led_load_pi.sleep_ready = false;
 	pi_controller();
 }
 
-static void load_disconnect(void) {
+static void load_disconnect(sleep_t sleep) {
 	disable_pwm1();
 	disable_load_switch();
 	led_load_pi_vars_init();
 	update_pwm1_duty_cycle(led_load_pi.duty_cycle);
+	if(sleep == SLEEP_READY){
+		led_load_pi.sleep_ready = true;
+	}else{
+		led_load_pi.sleep_ready = false;
+	}
 }
 

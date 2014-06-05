@@ -15,5 +15,6 @@ struct pi{
 	state_t state;
 	bool_t error;
 	bool_t sticky_error;
+	bool_t sleep_ready;
 };
 #endif
