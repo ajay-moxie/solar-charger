@@ -5,7 +5,7 @@
 
 
 //PWM period for 40KHz PWM output
-#define PWM_PERIOD 100
+//#define PWM_PERIOD 100
 
 //10% Duty cycle
 #define DUTY_CYCLE_10 00

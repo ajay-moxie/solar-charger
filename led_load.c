@@ -141,8 +141,8 @@ void pi_controller(void) {
 			led_load_pi.sticky_error = true;
 		}
 		else {
-			if(get_pwm_period() != PWM_PERIOD){
-				set_pwm_period(PWM_PERIOD);
+			if(get_pwm_period() != LED_LOAD_PI_PWM_PERIOD){
+				set_pwm_period(LED_LOAD_PI_PWM_PERIOD);
 			}
 			enable_load_switch();
 			enable_pwm1();

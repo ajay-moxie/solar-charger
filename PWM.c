@@ -1,4 +1,4 @@
-
+#include "config.h"
 #include "PWM.h"
 
 uint16_t get_pwm_period()
@@ -16,7 +16,7 @@ void config_pwm1(void) {
   //Clear PWM1CON
   PWM1CON = 0x0;
   //Set PWM period
-  PR2 = PWM_PERIOD;
+  PR2 = LED_LOAD_PI_PWM_PERIOD;
   //Setting duty cycle to 10%
   PWM1DCH = DUTY_CYCLE_10_U;
   PWM1DCL = DUTY_CYCLE_10_L;
