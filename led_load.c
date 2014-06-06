@@ -136,7 +136,7 @@ void pi_controller(void) {
 		load_cond = monitor_load_regulation();
 		if (load_cond == SHORT_CKT_LOAD) {
 			disable_load_switch();
-			disable_pwm1();
+			disable_pwm(LED_LOAD_PWM);
 			display_short_ckt_fault();
 			led_load_pi.sticky_error = true;
 		}
@@ -145,7 +145,7 @@ void pi_controller(void) {
 				set_pwm_period(LED_LOAD_PI_PWM_PERIOD);
 			}
 			enable_load_switch();
-			enable_pwm1();
+			enable_pwm(LED_LOAD_PWM);
 			led_load_pi.feedback = load_vol;
 			calculate_duty_cycle();
 			update_pwm1_duty_cycle(led_load_pi.duty_cycle);
@@ -160,7 +160,7 @@ void load_connect(void) {
 }
 
 static void load_disconnect(sleep_t sleep) {
-	disable_pwm1();
+	disable_pwm(LED_LOAD_PWM);
 	disable_load_switch();
 	led_load_pi_vars_init();
 	update_pwm1_duty_cycle(led_load_pi.duty_cycle);
