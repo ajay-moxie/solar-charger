@@ -125,3 +125,26 @@ void configure_pwm(void) {
   config_pwm1();
 }
 
+void pwm_init(pwm_id_t pwm_id)
+{
+	switch(pwm_id){
+	case PWM1:
+		TRISC5 = 0;//configured as o/p
+		PWM1CON = 0x0;
+		PWM1EN = 1;
+		disable_pwm(PWM1);
+		break;
+	case PWM2:
+		TRISC3 = 0;//configured as o/p
+		PWM3CON = 0x0;
+		PWM3EN = 1;
+		disable_pwm(PWM2);
+		break;
+	case PWM3:
+		break;
+	case PWM4:
+		break;
+	default:
+		break;
+	}
+}

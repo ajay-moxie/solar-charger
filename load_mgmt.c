@@ -4,6 +4,7 @@
 #include "led_load.h"
 #include "interrupt.h"
 #include "temp.h"
+#include "PWM.h"
 
 static uint16_t load_volt;
 static ovp_mon_t ovp_cond;
@@ -46,4 +47,12 @@ void load_mgmt()
 	if(error == false){
 		set_load_error(false);
 	}
+}
+
+void load_mgmt_init()
+{
+	LATC5 = 1; //o/p is one by default so that load is off
+	pwm_init(LED_LOAD_PWM);
+  	update_pwm_duty_cycle(PWM1, 0);
+  	set_pwm_polarity(LED_LOAD_PWM, ACTIVE_LOW);
 }

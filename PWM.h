@@ -34,6 +34,7 @@ void enable_pwm(pwm_id_t pwm_id);
 void disable_pwm(pwm_id_t pwm_id);
 void set_pwm_polarity(pwm_id_t pwm_id, pwm_polarity_t polarity);
 void update_pwm_duty_cycle(pwm_id_t pwm_id, uint16_t duty_cycle);
+void pwm_init(pwm_id_t pwm_id);
 
 #endif
 
