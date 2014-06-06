@@ -148,7 +148,7 @@ void pi_controller(void) {
 			enable_pwm(LED_LOAD_PWM);
 			led_load_pi.feedback = load_vol;
 			calculate_duty_cycle();
-			update_pwm1_duty_cycle(led_load_pi.duty_cycle);
+			update_pwm_duty_cycle(LED_LOAD_PWM, led_load_pi.duty_cycle);
 		}
 	}
 }
@@ -163,7 +163,7 @@ static void load_disconnect(sleep_t sleep) {
 	disable_pwm(LED_LOAD_PWM);
 	disable_load_switch();
 	led_load_pi_vars_init();
-	update_pwm1_duty_cycle(led_load_pi.duty_cycle);
+	update_pwm_duty_cycle(LED_LOAD_PWM, led_load_pi.duty_cycle);
 	if(sleep == SLEEP_READY){
 		led_load_pi.sleep_ready = true;
 	}else{

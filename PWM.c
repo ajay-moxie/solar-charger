@@ -102,8 +102,7 @@ void config_pwm1(void) {
   //Set PWM period
   PR2 = LED_LOAD_PI_PWM_PERIOD;
   //Setting duty cycle to 10%
-  PWM1DCH = DUTY_CYCLE_10_U;
-  PWM1DCL = DUTY_CYCLE_10_L;
+  update_pwm_duty_cycle(PWM1, 0);
   //PWM enable
   PWM1EN = 1;
   PWM1OUT = 0;
