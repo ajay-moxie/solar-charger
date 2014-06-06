@@ -1,4 +1,5 @@
-
+#ifndef __PWM_H__
+#define __PWM_H__
 #include <htc.h>
 #include <stdint.h>
 
@@ -21,3 +22,6 @@ void init_pwm1_var(void);
 void configure_pwm(void);
 uint16_t get_pwm_period();
 void set_pwm_period(uint16_t period);
+
+#endif
+
