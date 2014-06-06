@@ -106,16 +106,16 @@ void config_pwm1(void) {
   //PWM enable
   PWM1EN = 1;
   PWM1OUT = 0;
-  PWM1POL = 1;
+  set_pwm_polarity(PWM1, ACTIVE_LOW);
 }
 
 
-void update_pwm1_duty_cycle(uint16_t duty_cyc) {
+/*void update_pwm1_duty_cycle(uint16_t duty_cyc) {
 
   //Setting duty cycle
   PWM1DCH = (duty_cyc & 0x1FC) >> 2;
   PWM1DCL = (duty_cyc & 0x03) << 6;
-}
+}*/
 
 
 void configure_pwm(void) {
