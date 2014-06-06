@@ -93,18 +93,18 @@ void calculate_duty_cycle(void) {
 	if ((led_load_pi.pi_error > 1) || (led_load_pi.pi_error < -1)) {
 		if (led_load_pi.saturated == 0) {
 			if (led_load_pi.pi_error > 0) {
-				if (led_load_pi.integral < INTEGRAL_MAX) {
+				if (led_load_pi.integral < LED_LOAD_INTEGRAL_MAX) {
 					led_load_pi.integral = led_load_pi.integral + led_load_pi.pi_error;
 				}
 			}
 			else {
-				if (led_load_pi.integral > INTEGRAL_MIN) {
+				if (led_load_pi.integral > LED_LOAD_INTEGRAL_MIN) {
 					led_load_pi.integral = led_load_pi.integral + led_load_pi.pi_error;
 				}
 			}
 		}
 		output = ((led_load_pi.pi_error * led_load_pi.Kp) + (led_load_pi.integral * led_load_pi.Ki));
-		output = output / CONST_K;
+		output = output / LED_LOAD_CONST_K;
 		if (output > led_load_pi.duty_max) {
 			led_load_pi.saturated = 1;
 			output = led_load_pi.duty_max;
