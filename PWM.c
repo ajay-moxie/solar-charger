@@ -96,28 +96,6 @@ void update_pwm_duty_cycle(pwm_id_t pwm_id, uint16_t duty_cycle)
 	}
 }
 
-void config_pwm1(void) {
-  //Clear PWM1CON
-  PWM1CON = 0x0;
-  //Set PWM period
-  PR2 = LED_LOAD_PI_PWM_PERIOD;
-  //Setting duty cycle to 10%
-  update_pwm_duty_cycle(PWM1, 0);
-  //PWM enable
-  PWM1EN = 1;
-  PWM1OUT = 0;
-  set_pwm_polarity(PWM1, ACTIVE_LOW);
-}
-
-
-/*void update_pwm1_duty_cycle(uint16_t duty_cyc) {
-
-  //Setting duty cycle
-  PWM1DCH = (duty_cyc & 0x1FC) >> 2;
-  PWM1DCL = (duty_cyc & 0x03) << 6;
-}*/
-
-
 void pwm_init(pwm_id_t pwm_id)
 {
 	switch(pwm_id){
