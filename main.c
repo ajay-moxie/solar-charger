@@ -25,11 +25,6 @@ state_t PV_state = OFF;
 
 //uint16_t bat[50];
 int main(void) {
-	uint16_t batt_volt;
-	int i = 0;
-	ovp_mon_t ovp_cond;
-
-	charging_stage_t temp;
 
 	sel_sys_clk_int_osc();
     	sleep_init();
@@ -45,8 +40,6 @@ int main(void) {
 	init_vars();
 	PEIE = 1;
 	enable_tmr2_int();
-	count_10sec = 0;
-	start_150ms = 0;
 	delay_loop_nms(5);
     DI();
 	detect_intensity_switch();
