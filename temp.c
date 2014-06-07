@@ -1,6 +1,8 @@
 #include "temp.h"
 #include "led_load.h"
 #include "battery_mgmt.h"
+#include "PWM.h"
+
 
 //main functions
 battery_voltage_t battery_check;
@@ -216,7 +218,7 @@ void init_vars(void) {
 }
 
 void prepare_sleep(void) {
-  disable_pwm1();
+  disable_pwm(PWM1);
   disable_load_switch();
   disable_charging();
   start_charging = 0;
