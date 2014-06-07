@@ -118,13 +118,6 @@ void config_pwm1(void) {
 }*/
 
 
-void configure_pwm(void) {
-  LATC5 = 1;
-  TRISC5 = 0;
-  disable_pwm(PWM1);
-  config_pwm1();
-}
-
 void pwm_init(pwm_id_t pwm_id)
 {
 	switch(pwm_id){

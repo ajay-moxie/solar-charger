@@ -15,5 +15,6 @@ typedef enum{
 	NO_ERROR
 }load_error_t;
 void load_mgmt();
+void load_mgmt_init();
 
 #endif

@@ -35,7 +35,7 @@ int main(void) {
 	config_intensity_switch();
 	configure_adc();
 	configure_timer();
-	configure_pwm();
+	load_mgmt_init();
 	load_switch_init();
 	config_LED_port();
 	configure_charger();

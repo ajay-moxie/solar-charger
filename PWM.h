@@ -27,7 +27,6 @@ typedef enum{
 void update_pwm1_duty_cycle(uint16_t duty_cycle);
 //void calculate_duty_cycle(void);
 void init_pwm1_var(void);
-void configure_pwm(void);
 uint16_t get_pwm_period();
 void set_pwm_period(uint16_t period);
 void enable_pwm(pwm_id_t pwm_id);
