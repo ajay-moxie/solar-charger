@@ -7,6 +7,7 @@
 #include "load_mgmt.h"
 #include "common.h"
 #include "intensity_switch.h"
+#include "power_mgmt.h"
 //#define TEST_LOAD_ON_OFF
 #ifdef TEST_LOAD_ON_OFF
 uint16_t test = 0;
@@ -31,6 +32,7 @@ int main(void) {
 	charging_stage_t temp;
 
 	sel_sys_clk_int_osc();
+    	sleep_init();
 	configure_interrupt();
 	config_intensity_switch();
 	configure_adc();
@@ -61,16 +63,11 @@ int main(void) {
 		}
 		else{
 			set_load_state(OFF);
+			DI();
 			if(load_power_state() == SLEEP_READY){
-				DI();
-				load_switch_exit();
-				select_internal_lp_osc();
-				enter_sleep_mode();
-				select_internal_hp_osc();
-				load_switch_init();
-				EI();
+				power_save();
 			}
-			//low power state
+			EI();
 		}
 #ifdef TEST_LOAD_ON_OFF
 		test++;
