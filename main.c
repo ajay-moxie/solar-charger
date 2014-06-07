@@ -63,11 +63,13 @@ int main(void) {
 		}
 		else{
 			set_load_state(OFF);
+#ifdef POWER_MGMT
 			DI();
 			if(load_power_state() == SLEEP_READY){
 				power_save();
 			}
 			EI();
+#endif
 		}
 #ifdef TEST_LOAD_ON_OFF
 		test++;
