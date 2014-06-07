@@ -15,6 +15,9 @@ typedef enum{
 	SLEEP_READY,
 	NO_SLEEP,
 }sleep_t;
+
+typedef void(*fn)(void);
+
 #endif
 
 
