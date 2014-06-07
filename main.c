@@ -64,7 +64,9 @@ int main(void) {
 			if(load_power_state() == SLEEP_READY){
 				DI();
 				load_switch_exit();
+				select_internal_lp_osc();
 				enter_sleep_mode();
+				select_internal_hp_osc();
 				load_switch_init();
 				EI();
 			}
