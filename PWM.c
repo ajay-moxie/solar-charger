@@ -115,6 +115,12 @@ void pwm_init(pwm_id_t pwm_id)
 	case PWM3:
 		break;
 	case PWM4:
+		APFCON = (APFCON) | 1;
+		TRISC1 = 0;//configured as o/p
+		PWM4CON = 0x0;
+		PWM4EN = 1;
+		PWM1OUT = 0;
+		disable_pwm(PWM4);
 		break;
 	default:
 		break;
