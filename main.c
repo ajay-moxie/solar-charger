@@ -9,6 +9,7 @@
 #include "common.h"
 #include "intensity_switch.h"
 #include "power_mgmt.h"
+#include "pv_mgmt.h"
 //#define TEST_LOAD_ON_OFF
 #ifdef TEST_LOAD_ON_OFF
 uint16_t test = 0;
@@ -54,6 +55,17 @@ int main(void) {
 			battery_mgmt();
 		}else{
 			pv_volt = get_pv_voltage();
+			if((pv_volt >= PV_BASE_VOLT_LOW) && (pv_volt <= PV_BASE_VOLT_HI)){
+				DI();
+				set_pv_ready(true);
+				EI();
+			}else if(pv_volt > PV_BASE_VOLT_HI){
+				//error
+			}else{
+				DI();
+				set_pv_ready(false);
+				EI();
+			}
 		}
 #ifdef DUSK2DAWN
 		if((intensity_switch_position() == ON) && (is_battery_charging() == false)){
