@@ -4,6 +4,7 @@
 #include "interrupt.h"
 #include "ADC.h"
 
+static bool_t pv_ready;
 uint16_t aa;
 uint16_t get_pv_voltage()
 {
@@ -22,4 +23,19 @@ uint16_t get_pv_voltage()
 	}
 	EI();
 	return pv_volt;
+}
+
+void set_pv_ready(bool_t state)
+{
+	pv_ready = state;
+}
+
+bool_t is_pv_ready()
+{
+	return pv_ready;
+}
+
+void pv_init()
+{
+	pv_ready = false;
 }
