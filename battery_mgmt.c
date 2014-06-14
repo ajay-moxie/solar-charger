@@ -11,6 +11,15 @@ uint16_t get_battery_voltage(){
 	EI();
 	return bat_volt;
 }
+
+bool_t is_battery_charging(){
+	return false;
+}
+
+void battery_mgmt()
+{
+}
+
 battery_voltage_t check_battery_voltage(void) {
 	uint8_t loop0;
 	battery_voltage_t return_val;
@@ -42,3 +51,11 @@ battery_voltage_t check_battery_voltage(void) {
 	return return_val;
 }
 
+battery_mgmt_init()
+{
+	LATC3 = 0; //o/p is one by default so that load is off
+	pwm_init(BATT_CHARGING_PWM);
+  	update_pwm_duty_cycle(BATT_CHARGING_PWM, 0);
+  	//set_pwm_polarity(BATT_CHARGING_PWM, ACTIVE_LOW);
+	enable_pwm(BATT_CHARGING_PWM);
+}
