@@ -53,6 +53,6 @@ void load_mgmt_init()
 {
 	LATC5 = 1; //o/p is one by default so that load is off
 	pwm_init(LED_LOAD_PWM);
-  	update_pwm_duty_cycle(PWM1, 0);
+  	update_pwm_duty_cycle(LED_LOAD_PWM, 0);
   	set_pwm_polarity(LED_LOAD_PWM, ACTIVE_LOW);
 }
