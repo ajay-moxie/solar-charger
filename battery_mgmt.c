@@ -2,6 +2,8 @@
 #include "temp.h"
 #include "interrupt.h"
 
+static bool_t battery_charging;
+
 uint16_t get_battery_voltage(){
 	uint16_t bat_volt;
 	DI();
@@ -13,7 +15,7 @@ uint16_t get_battery_voltage(){
 }
 
 bool_t is_battery_charging(){
-	return false;
+	return battery_charging;
 }
 
 void battery_mgmt()
@@ -58,4 +60,5 @@ battery_mgmt_init()
   	update_pwm_duty_cycle(BATT_CHARGING_PWM, 0);
   	//set_pwm_polarity(BATT_CHARGING_PWM, ACTIVE_LOW);
 	enable_pwm(BATT_CHARGING_PWM);
+	battery_charging = false;
 }

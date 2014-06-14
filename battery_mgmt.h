@@ -2,6 +2,7 @@
 #define __BATTERY_MGMT_H__
 #include "config.h"
 #include "temp.h"
+#include "common.h"
 
 
 typedef enum {
@@ -9,6 +10,13 @@ typedef enum {
   High = 2,
   Mid = 3
 } battery_voltage_t;
+
+typedef enum{
+	FREE_CHARGING,
+	CC,
+	CV,
+	TICKLE,
+}battery_charging_state_t;
 
 battery_voltage_t check_battery_voltage(void);
 uint16_t get_battery_voltage();
