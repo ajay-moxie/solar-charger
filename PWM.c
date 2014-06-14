@@ -91,7 +91,6 @@ void update_pwm_duty_cycle(pwm_id_t pwm_id, uint16_t duty_cycle)
 	case PWM4:
   		PWM4DCH = (duty_cycle & 0x1FC) >> 2;
 		PWM4DCL = (duty_cycle & 0x03) << 6;
-		PWM4OE = 0;
 		break;
 	default:
 		break;
