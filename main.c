@@ -1,9 +1,10 @@
-
+#include "config.h"
 #include "temp.h"
 #include "led_load.h"
 #include "interrupt.h"
 #include "pi.h"
 #include "battery_mgmt.h"
+#include "pv_mgmt.h"
 #include "load_mgmt.h"
 #include "common.h"
 #include "intensity_switch.h"
@@ -24,6 +25,7 @@ state_t PV_state = OFF;
 //battery_voltage_t battery_check;
 
 //uint16_t bat[50];
+	uint16_t pv_volt;
 int main(void) {
 
 	sel_sys_clk_int_osc();
@@ -33,9 +35,10 @@ int main(void) {
 	configure_adc();
 	configure_timer();
 	load_mgmt_init();
+	battery_mgmt_init();
 	load_switch_init();
 	config_LED_port();
-	configure_charger();
+//	configure_charger();
 	led_load_pi_init();
 	init_vars();
 	PEIE = 1;
@@ -46,16 +49,36 @@ int main(void) {
     EI();
 	while(1) {
 
-		if((intensity_switch_position() == ON) && (PV_state == OFF)){
+		if(is_battery_charging() == true)
+		{
+			battery_mgmt();
+		}else{
+			pv_volt = get_pv_voltage();
+		}
+#ifdef DUSK2DAWN
+		if((intensity_switch_position() == ON) && (is_battery_charging() == false)){
+			if(pv_volt < DUSK_VOLT){
+				set_load_state(ON);
+				load_mgmt();
+			}
+			else if(pv_volt > DAWN_VOLT){
+				set_load_state(OFF);
+			}
+		}
+#endif
+
+#ifndef DUSK2DAWN
+		if(intensity_switch_position() == ON){
 			set_load_state(ON);
-		
 			load_mgmt();
 		}
-		else if(PV_state == ON){
-			//manage battery changing
-		}
+#endif
 		else{
 			set_load_state(OFF);
+		}
+
+		if((intensity_switch_position() == OFF) && (is_battery_charging() == false)){
+
 #ifdef POWER_MGMT
 			DI();
 			if(load_power_state() == SLEEP_READY){
