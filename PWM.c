@@ -77,19 +77,19 @@ void update_pwm_duty_cycle(pwm_id_t pwm_id, uint16_t duty_cycle)
 {
 	switch(pwm_id){
 	case PWM1:
-  		PWM1DCH = (duty_cycle & 0x1FC) >> 2;
+  		PWM1DCH = (duty_cycle & 0x3FC) >> 2;
 		PWM1DCL = (duty_cycle & 0x03) << 6;
 		break;
 	case PWM2:
-  		PWM2DCH = (duty_cycle & 0x1FC) >> 2;
+  		PWM2DCH = (duty_cycle & 0x3FC) >> 2;
 		PWM2DCL = (duty_cycle & 0x03) << 6;
 		break;
 	case PWM3:
-  		PWM3DCH = (duty_cycle & 0x1FC) >> 2;
+  		PWM3DCH = (duty_cycle & 0x3FC) >> 2;
 		PWM3DCL = (duty_cycle & 0x03) << 6;
 		break;
 	case PWM4:
-  		PWM4DCH = (duty_cycle & 0x1FC) >> 2;
+  		PWM4DCH = (duty_cycle & 0x3FC) >> 2;
 		PWM4DCL = (duty_cycle & 0x03) << 6;
 		break;
 	default:
