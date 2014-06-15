@@ -18,7 +18,6 @@ typedef enum{
 	TICKLE,
 }battery_charging_state_t;
 
-battery_voltage_t check_battery_voltage(void);
 uint16_t get_battery_voltage();
 bool_t is_battery_charging();
 void battery_mgmt();

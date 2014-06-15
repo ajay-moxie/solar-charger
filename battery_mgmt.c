@@ -22,7 +22,7 @@ void battery_mgmt()
 {
 }
 
-battery_voltage_t check_battery_voltage(void) {
+/*static battery_voltage_t check_battery_voltage(void) {
 	uint8_t loop0;
 	battery_voltage_t return_val;
 	uint16_t adc_int_val;
@@ -51,7 +51,7 @@ battery_voltage_t check_battery_voltage(void) {
 	}
 
 	return return_val;
-}
+}*/
 
 battery_mgmt_init()
 {
