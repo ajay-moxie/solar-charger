@@ -4,6 +4,7 @@
 #include "interrupt.h"
 #include "pi.h"
 #include "battery_mgmt.h"
+#include "battery_pi.h"
 #include "pv_mgmt.h"
 #include "load_mgmt.h"
 #include "common.h"
@@ -41,6 +42,7 @@ int main(void) {
 	config_LED_port();
 //	configure_charger();
 	led_load_pi_init();
+	battery_pi_init();
 	init_vars();
 	PEIE = 1;
 	enable_tmr2_int();
@@ -58,6 +60,7 @@ int main(void) {
 			if((pv_volt >= PV_BASE_VOLT_LOW) && (pv_volt <= PV_BASE_VOLT_HI)){
 				DI();
 				set_pv_ready(true);
+				set_battery_pi_state(ON);
 				EI();
 			}else if(pv_volt > PV_BASE_VOLT_HI){
 				//error
