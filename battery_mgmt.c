@@ -1,6 +1,7 @@
 #include "battery_mgmt.h"
 #include "temp.h"
 #include "interrupt.h"
+#include "battery_pi.h"
 
 static bool_t battery_charging;
 
@@ -18,8 +19,14 @@ bool_t is_battery_charging(){
 	return battery_charging;
 }
 
+void set_battery_charging_state(uint16_t state){
+	battery_charging = state;
+}
+
 void battery_mgmt()
 {
+	set_battery_pi_state(ON);
+	
 }
 
 /*static battery_voltage_t check_battery_voltage(void) {
@@ -57,8 +64,8 @@ battery_mgmt_init()
 {
 	LATC3 = 0; //o/p is one by default so that load is off
 	pwm_init(BATT_CHARGING_PWM);
-  	update_pwm_duty_cycle(BATT_CHARGING_PWM, 0);
-  	//set_pwm_polarity(BATT_CHARGING_PWM, ACTIVE_LOW);
+  	update_pwm_duty_cycle(BATT_CHARGING_PWM, 0x0);
+  	set_pwm_polarity(BATT_CHARGING_PWM, ACTIVE_LOW);
 	enable_pwm(BATT_CHARGING_PWM);
 	battery_charging = false;
 }

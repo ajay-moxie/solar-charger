@@ -22,4 +22,5 @@ uint16_t get_battery_voltage();
 bool_t is_battery_charging();
 void battery_mgmt();
 battery_mgmt_init();
+void set_battery_charging_state(uint16_t state);
 #endif
