@@ -62,7 +62,7 @@ void battery_mgmt()
 
 battery_mgmt_init()
 {
-	LATC3 = 0; //o/p is one by default so that load is off
+	LATC3 = BATT_CHARGING_INIT_VALUE; //o/p is one by default so that load is off
 	pwm_init(BATT_CHARGING_PWM);
   	update_pwm_duty_cycle(BATT_CHARGING_PWM, 0x0);
   	set_pwm_polarity(BATT_CHARGING_PWM, ACTIVE_LOW);
