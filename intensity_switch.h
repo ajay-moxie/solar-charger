@@ -8,4 +8,5 @@
 void config_intensity_switch(void);
 state_t intensity_switch_position(void);
 void detect_intensity_switch(void);
+void check_initial_intensity_switch();
 #endif

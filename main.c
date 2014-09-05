@@ -48,7 +48,7 @@ int main(void) {
 	enable_tmr2_int();
 	delay_loop_nms(5);
     DI();
-	detect_intensity_switch();
+	check_initial_intensity_switch();
     EI();
 	while(1) {
 

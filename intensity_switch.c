@@ -1,29 +1,58 @@
 
 #include "intensity_switch.h"
 #include "led_load.h"
+#include "port.h"
+#include "config.h"
 
 static state_t intensity_switch;
 
+static struct{
+	uint8_t port;
+	uint8_t pin;
+	uint8_t intensity;
+	uint8_t off_value;
+}inten_switch_config[TOTAL_INTENSITY_SWITCH] = SWITCH;
 
 void config_intensity_switch(void) {
-	TRISA5 = 1;
-	ANSELA = ANSELA & (~(0x20));
-	//intensity switch1
-	//Configure falling edge interrupt for RA5
-	IOCAN5 = 1;
-	//Configure rising edge interrupt for RA5
-	IOCAP5 = 1;
+	int i;
+	for(i = 0; i < TOTAL_INTENSITY_SWITCH; i++){
+		set_port_dir(inten_switch_config[i].port, inten_switch_config[i].pin, INPUT);
+		set_port_type(inten_switch_config[i].port, inten_switch_config[i].pin, DIGITAL);
+		set_port_interrupt(inten_switch_config[i].port, inten_switch_config[i].pin, RISING_EDGE);
+		set_port_interrupt(inten_switch_config[i].port, inten_switch_config[i].pin, FALLING_EDGE);
+	}
 }
 
+void check_initial_intensity_switch()
+{
+	uint8_t sw;
+	int i;
+	intensity_switch = OFF;
+	for(i = 0; i < TOTAL_INTENSITY_SWITCH; i++){
+		sw = read_port_pin(inten_switch_config[i].port,inten_switch_config[i].pin);
+		if (inten_switch_config[i].off_value != sw) {
+			intensity_switch = ON;
+			led_load_pi_init();
+			set_led_load_pi_setpoint(inten_switch_config[i].intensity);
+		}
+	}
+}
 void detect_intensity_switch(void)
 {
-	int sw;
-	sw = RA5;
-	if (sw == 0) {
-		intensity_switch = ON;
-		led_load_pi_init();
-	} else {
-		intensity_switch = OFF;
+	uint8_t sw;
+	int i;
+	for(i = 0; i < TOTAL_INTENSITY_SWITCH; i++){
+		if(read_clear_port_interrupt(inten_switch_config[i].port, inten_switch_config[i].pin)){
+			sw = read_port_pin(inten_switch_config[i].port,inten_switch_config[i].pin);
+			if (inten_switch_config[i].off_value != sw) {
+				intensity_switch = ON;
+				led_load_pi_init();
+				set_led_load_pi_setpoint(inten_switch_config[i].intensity);
+			}
+			else {
+				intensity_switch = OFF;
+			}
+		}
 	}
 }
 
