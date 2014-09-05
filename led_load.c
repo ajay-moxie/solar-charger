@@ -33,7 +33,6 @@ void set_load_sticky_error(bool_t error)
 
 static led_load_pi_vars_init()
 {
-	led_load_pi.setpoint = LED_LOAD_SETPOINT;
 	led_load_pi.pi_error = 0;
 	led_load_pi.integral = 0;
 	led_load_pi.duty_cycle = 0;
@@ -42,6 +41,12 @@ static led_load_pi_vars_init()
 	led_load_pi.duty_max = LED_LOAD_DUTY_MAX;
 	led_load_pi.Kp = LED_LOAD_KP;
 	led_load_pi.Ki = LED_LOAD_KI;
+
+}
+
+set_led_load_pi_setpoint(uint16_t setpoint)
+{
+	led_load_pi.setpoint = setpoint;
 
 }
 void led_load_pi_init()

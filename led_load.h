@@ -32,4 +32,5 @@ void set_load_error(bool_t error);
 void set_load_sticky_error(bool_t error);
 void led_load_pi_init();
 sleep_t load_power_state();
+set_led_load_pi_setpoint(uint16_t setpoint);
 #endif
