@@ -1,7 +1,11 @@
 
 #include "interrupt.h"
 #include "led_load.h"
+#include "battery_pi.h"
 #include "intensity_switch.h"
+#include "battery_mgmt.h"
+
+static int charger_load_switch;
 
 void enable_IOC_interrupt(void) {
   //Enable global interrupt bit
@@ -28,13 +32,14 @@ void DI()
 void interrupt update_intensity_flags_int(void) {
   //Check intensity switch position and set
   //flags accordingly
-  if(IOCAF5 == 1){
-	  IOCAF5 = 0;
 	  detect_intensity_switch();
-  }
   if (TMR2IF == 1) {
-    start_pi = 1;
-    load_connect();
+    charger_load_switch = (charger_load_switch + 1);
+    if((charger_load_switch % 2) == 0)
+	    load_connect();
+    else{
+	    charge_battery();
+    }
     TMR2IF = 0;
   }
 }
