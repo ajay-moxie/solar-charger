@@ -11,11 +11,11 @@ static void load_switch_sleep_prepare(void);
 }*/
 
 void enable_load_switch(void) {
-  LATC3 = 0;
+  LATC3 = LOAD_SRT_CKT_PROTECTION_SW_ENABLE;
 }
 
 void disable_load_switch(void) {
-  LATC3 = 1;
+  LATC3 = !LOAD_SRT_CKT_PROTECTION_SW_ENABLE;
 }
 
 void load_switch_init(void) {
