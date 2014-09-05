@@ -13,7 +13,7 @@ static monitor_load_voltage(void) {
 	uint8_t i;
 	
 	DI();
-	select_adc_channel(OVERLOAD_SENSE);
+	select_adc_channel(LED_LOAD_OVERLOAD_SENSE);
 	do_adc_conversion();
 	load_volt = load_adc_result();
 	EI();
@@ -51,8 +51,8 @@ void load_mgmt()
 
 void load_mgmt_init()
 {
-	LATC5 = 1; //o/p is one by default so that load is off
+	LATC5 = LED_LOAD_SWITCH_INIT_VALUE; //o/p is one by default so that load is off
 	pwm_init(LED_LOAD_PWM);
   	update_pwm_duty_cycle(LED_LOAD_PWM, 0);
-  	set_pwm_polarity(LED_LOAD_PWM, ACTIVE_LOW);
+  	set_pwm_polarity(LED_LOAD_PWM, LED_LOAD_POLARTIY);
 }
