@@ -66,7 +66,7 @@ load_regulation_t monitor_load_regulation(void) {
 	return_val = OPEN_CKT_LOAD;
 	adc_int_val = 0;
 
-	select_adc_channel(LOAD_VOLTAGE);
+	select_adc_channel(LED_LOAD_CURRENT_SENSE);
 	do_adc_conversion();
 	load_vol = load_adc_result();
 	
