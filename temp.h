@@ -21,8 +21,8 @@
 
 //Analog Channels
 #define CHARGER_SENSE 10
-#define OVERLOAD_SENSE 11
-#define LOAD_VOLTAGE 6
+//#define OVERLOAD_SENSE 11
+//#define LOAD_VOLTAGE 6
 #define BATTERY_VOL_MON 9
 #define BATTERY_CHARGE_VOL 8
 #define TEMP_COMP 3
