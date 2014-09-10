@@ -52,23 +52,13 @@ int main(void) {
     EI();
 	while(1) {
 
-		if(is_battery_charging() == true)
+		measure_battery_voltage();
+		measure_pv_voltage();
+		pv_volt = get_pv_voltage();
+		verify_charger();
+		if(battery_charging_state() == ON)
 		{
 			battery_mgmt();
-		}else{
-			pv_volt = get_pv_voltage();
-			if((pv_volt >= PV_BASE_VOLT_LOW) && (pv_volt <= PV_BASE_VOLT_HI)){
-				DI();
-				set_pv_ready(true);
-				set_battery_pi_state(ON);
-				EI();
-			}else if(pv_volt > PV_BASE_VOLT_HI){
-				//error
-			}else{
-				DI();
-				set_pv_ready(false);
-				EI();
-			}
 		}
 #ifdef DUSK2DAWN
 		if((intensity_switch_position() == ON) && (is_battery_charging() == false)){
