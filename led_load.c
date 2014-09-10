@@ -92,7 +92,7 @@ load_regulation_t monitor_load_regulation(void) {
 }
 
 int16_t output;
-void calculate_duty_cycle(void) {
+static void calculate_duty_cycle(void) {
 	led_load_pi.pi_error = led_load_pi.setpoint - led_load_pi.feedback;
 
 	if ((led_load_pi.pi_error > 1) || (led_load_pi.pi_error < -1)) {
@@ -126,14 +126,14 @@ void calculate_duty_cycle(void) {
 }
 
 
-void pi_controller(void) {
+static void pi_controller(void) {
 	load_regulation_t load_cond;
 
 	if((led_load_pi.state == OFF) || (led_load_pi.error == true) || (led_load_pi.sticky_error == true)){
 
 		load_disconnect(SLEEP_READY);
 	}
-	else if(led_load_pi.error == true){
+	else if(led_load_pi.error == true){ //not reachable, correct it
 		load_disconnect(NO_SLEEP);
 	}
 	else {
