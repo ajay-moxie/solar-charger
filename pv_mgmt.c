@@ -5,24 +5,35 @@
 #include "ADC.h"
 
 static bool_t pv_ready;
-uint16_t aa;
-uint16_t get_pv_voltage()
+static uint16_t pv1_volt;
+
+measure_pv_voltage()
 {
-	uint16_t pv_volt;
 	DI();
 	select_adc_channel(CHARGER_ADC_LINE);
 	do_adc_conversion();
-	pv_volt = load_adc_result();
-	aa = pv_volt;
-	if((pv_volt > PV_BASE_VOLT_LOW) && (pv_volt < PV_BASE_VOLT_HI))
-		pv_volt = 0;
-	else if(pv_volt > PV_BASE_VOLT_HI){
+	pv1_volt = load_adc_result();
+	EI();
+}
+uint16_t aa;
+uint16_t get_pv_voltage()
+{
+	uint8_t calc_volt;
+	DI();
+#ifdef PV_NEGATIVE_SIDE
+	if((pv1_volt > PV_BASE_VOLT_LOW) && (pv1_volt < PV_BASE_VOLT_HI))
+		calc_volt = 0;
+	else if(pv1_volt > PV_BASE_VOLT_HI){
 		//error
 	}else{
-		pv_volt = PV_BASE_VOLT_LOW - pv_volt;
+		pv1_volt = PV_BASE_VOLT_LOW - pv1_volt;
 	}
+#endif
+#ifdef PV_POSITIVE_SIDE
+	calc_volt = pv1_volt - PV_BASE_VOLT_LOW;
+#endif
 	EI();
-	return pv_volt;
+	return calc_volt;
 }
 
 void set_pv_ready(bool_t state)
