@@ -22,4 +22,5 @@ void set_battery_error(bool_t error);
 void set_battery_sticky_error(bool_t error);
 void battery_pi_init();
 sleep_t battery_power_state();
+void set_battery_pi_setpoint(uint16_t setpoint);
 #endif
