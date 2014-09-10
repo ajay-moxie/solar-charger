@@ -61,7 +61,7 @@ int main(void) {
 			battery_mgmt();
 		}
 #ifdef DUSK2DAWN
-		if((intensity_switch_position() == ON) && (is_battery_charging() == false)){
+		if((intensity_switch_position() == ON) && (battery_charging_state() == OFF)){
 			if(pv_volt < DUSK_VOLT){
 				set_load_state(ON);
 				load_mgmt();
@@ -82,7 +82,7 @@ int main(void) {
 			set_load_state(OFF);
 		}
 
-		if((intensity_switch_position() == OFF) && (is_battery_charging() == false)){
+		if((intensity_switch_position() == OFF) && (battery_charging_state() == OFF)){
 
 #ifdef POWER_MGMT
 			DI();
