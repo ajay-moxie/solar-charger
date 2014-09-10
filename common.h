@@ -17,6 +17,11 @@ typedef enum{
 	NO_SLEEP,
 }sleep_t;
 
+typedef enum{
+	NEGATIVE,
+	POSITIVE,
+}sense_t;
+
 typedef void(*fn)(void);
 
 #endif
