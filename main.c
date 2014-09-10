@@ -11,6 +11,7 @@
 #include "intensity_switch.h"
 #include "power_mgmt.h"
 #include "pv_mgmt.h"
+#include "charging_mgmt.h"
 //#define TEST_LOAD_ON_OFF
 #ifdef TEST_LOAD_ON_OFF
 uint16_t test = 0;
@@ -43,7 +44,6 @@ int main(void) {
 //	configure_charger();
 	led_load_pi_init();
 	battery_pi_init();
-	init_vars();
 	PEIE = 1;
 	enable_tmr2_int();
 	delay_loop_nms(5);
