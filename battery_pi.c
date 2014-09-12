@@ -64,7 +64,7 @@ static battery_pi_vars_init()
 	if(battery_pi.sense == NEGATIVE){
 		battery_pi.setpoint = battery_pi.zero_ref - battery_pi.setpoint;
 	}
-	//battery_pi.stop_pi = &stop_battery_charging;
+	battery_pi.stop_pi = stop_battery_charging;
 
 }
 void battery_pi_init()
