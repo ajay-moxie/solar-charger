@@ -113,6 +113,10 @@ void pwm_init(pwm_id_t pwm_id)
 		disable_pwm(PWM2);
 		break;
 	case PWM3:
+		TRISA &= 0xFB;//configured as o/p
+		PWM3CON = 0x0;
+		PWM3EN = 1;
+		disable_pwm(PWM2);
 		break;
 	case PWM4:
 		APFCON = (APFCON) | 1;
