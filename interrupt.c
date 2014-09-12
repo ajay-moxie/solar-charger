@@ -2,6 +2,7 @@
 #include "interrupt.h"
 #include "led_load.h"
 #include "battery_pi.h"
+#include "mobile_pi.h"
 #include "intensity_switch.h"
 #include "battery_mgmt.h"
 
@@ -35,8 +36,10 @@ void interrupt update_intensity_flags_int(void) {
 	detect_intensity_switch();
 	if (TMR2IF == 1) {
 		charger_load_switch = (charger_load_switch + 1);
-		if((charger_load_switch % 2) == 0)
+		if((charger_load_switch % 3) == 0)
 			load_connect();
+		if((charger_load_switch % 3) == 1)
+			charge_mobile();
 		else{
 			charge_battery();
 		}
